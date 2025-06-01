@@ -39,7 +39,7 @@
 
 <body class="bg-gray-100 dark:bg-gray-900 text-gray-800 dark:text-gray-200 antialiased" x-data="{
     sidebarOpen: localStorage.getItem('sidebarOpen') === null ? window.innerWidth >= 1024 : localStorage.getItem('sidebarOpen') === 'true',
-    toggleSidebar() { 
+    toggleSidebar() {
         this.sidebarOpen = !this.sidebarOpen;
         localStorage.setItem('sidebarOpen', this.sidebarOpen);
     },
@@ -50,6 +50,8 @@
     <div class="min-h-screen flex flex-col">
 
         <x-layouts.app.header />
+
+        <x-flash-message />
 
         <!-- Main Content Area -->
         <div class="flex flex-1 overflow-hidden">

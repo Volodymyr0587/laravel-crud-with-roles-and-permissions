@@ -53,7 +53,7 @@
                             @csrf
                             @method('DELETE')
                             <button type="submit" onclick="return confirm('Are you sure?')"
-                                class="bg-red-600 text-white px-5 py-1.5 rounded-lg hover:bg-red-700 transition">
+                                class="bg-red-600 text-white px-5 py-1.5 rounded-lg hover:bg-red-700 hover:cursor-pointer transition">
                                 Delete
                             </button>
                         </form>
