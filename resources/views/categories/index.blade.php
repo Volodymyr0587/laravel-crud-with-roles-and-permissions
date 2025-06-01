@@ -44,9 +44,9 @@
                     <td class="px-6 py-4 font-medium dark:text-gray-200">{{ $category->name }}</td>
                      <td class="px-6 py-4 font-medium dark:text-gray-200">{{ $category->products->count() }}</td>
                     <td class="px-6 py-4 space-x-2">
-                        <a href="#"
-                            class="bg-blue-600 text-white px-5 py-2 rounded-lg hover:bg-blue-700 transition">Show</a>
-                        <a href="#"
+                        {{-- <a href="#"
+                            class="bg-blue-600 text-white px-5 py-2 rounded-lg hover:bg-blue-700 transition">Show</a> --}}
+                        <a href="{{ route('categories.edit', $category) }}"
                             class="bg-yellow-600 text-white px-5 py-2 rounded-lg hover:bg-yellow-700 transition">Edit</a>
                         <form action="{{ route('categories.destroy', $category) }}" method="POST" class="inline">
                             @csrf
