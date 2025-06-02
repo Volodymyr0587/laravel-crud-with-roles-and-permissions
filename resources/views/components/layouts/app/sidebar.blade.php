@@ -10,6 +10,15 @@
                     :active="request()->routeIs('dashboard*')">Dashboard</x-layouts.sidebar-link>
 
                 <!-- Example two level -->
+                <x-layouts.sidebar-two-level-link-parent title="Products" icon="fas-house"
+                    :active="request()->routeIs('two-level*')">
+                    <x-layouts.sidebar-two-level-link href="{{ route('products.index') }}" icon='fas-house'
+                        :active="request()->routeIs('products.index')">All products</x-layouts.sidebar-two-level-link>
+                    <x-layouts.sidebar-two-level-link href="{{ route('products.create') }}" icon='fas-house'
+                        :active="request()->routeIs('products.create')">Add product</x-layouts.sidebar-two-level-link>
+                </x-layouts.sidebar-two-level-link-parent>
+
+                <!-- Example two level -->
                 <x-layouts.sidebar-two-level-link-parent title="Categories" icon="fas-house"
                     :active="request()->routeIs('two-level*')">
                     <x-layouts.sidebar-two-level-link href="{{ route('categories.index') }}" icon='fas-house'

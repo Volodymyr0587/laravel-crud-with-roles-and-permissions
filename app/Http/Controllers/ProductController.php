@@ -2,18 +2,27 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Product;
+use App\Models\Category;
+use Illuminate\Http\Request;
 use App\Http\Requests\StoreProductRequest;
 use App\Http\Requests\UpdateProductRequest;
-use App\Models\Product;
+
 
 class ProductController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
+        $searchTerm = $request->query('search');
+
+        $query = Product::with('categories')->searchByNameDescription($searchTerm);
+
+        $products = $query->latest()->paginate(5)->withQueryString();
+
+        return view('products.index', ['products' => $products]);
     }
 
     /**
@@ -21,7 +30,9 @@ class ProductController extends Controller
      */
     public function create()
     {
-        //
+        $categories = Category::all();
+
+        return view('products.create', ['categories' => $categories]);
     }
 
     /**
@@ -29,7 +40,11 @@ class ProductController extends Controller
      */
     public function store(StoreProductRequest $request)
     {
-        //
+        $product = Product::create($request->validated());
+
+        $product->categories()->attach($request->input('categories', []));
+
+        return to_route('products.index')->with('message', "$product->name created successfully.");
     }
 
     /**
@@ -37,7 +52,7 @@ class ProductController extends Controller
      */
     public function show(Product $product)
     {
-        //
+        return view('products.show', ['product' => $product]);
     }
 
     /**
@@ -45,7 +60,9 @@ class ProductController extends Controller
      */
     public function edit(Product $product)
     {
-        //
+        $categories = Category::all();
+
+        return view('products.edit', ['product' => $product, 'categories' => $categories]);
     }
 
     /**
@@ -53,7 +70,12 @@ class ProductController extends Controller
      */
     public function update(UpdateProductRequest $request, Product $product)
     {
-        //
+        $product->update($request->validated());
+
+        // Sync categories (remove old ones and attach new)
+        $product->categories()->sync($request->input('categories', []));
+
+        return to_route('products.show', $product)->with('message', "$product->name updated successfully.");
     }
 
     /**
@@ -61,6 +83,9 @@ class ProductController extends Controller
      */
     public function destroy(Product $product)
     {
-        //
+        $product->categories()->detach(); // Detach all categories
+        $product->delete();
+
+        return to_route('products.index')->with('message', 'Product deleted successfully.');
     }
 }
