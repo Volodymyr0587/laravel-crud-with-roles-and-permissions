@@ -1,9 +1,6 @@
 <x-layouts.app>
 
-    <div class="mb-6">
-        <h1 class="text-2xl font-bold text-gray-800 dark:text-gray-100">Categories</h1>
-        <p class="text-gray-600 dark:text-gray-400 mt-1">All available categories </p>
-    </div>
+    <x-search-header backRoute="categories.index" resourceName="categories" />
 
     <!-- Top Bar -->
     <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-4 gap-4">
@@ -43,10 +40,11 @@
                 @forelse ($categories as $category)
                 <tr class="border-t hover:bg-gray-50 dark:hover:bg-gray-600">
                     <td class="px-6 py-4 font-medium dark:text-gray-200">{{ $category->name }}</td>
-                     <td class="px-6 py-4 font-medium dark:text-gray-200">{{ $category->products->count() }}</td>
+                    <td class="px-6 py-4 font-medium dark:text-gray-200">{{ $category->products->count() }}</td>
                     <td class="px-6 py-4 space-x-2">
                         {{-- <a href="#"
-                            class="bg-blue-600 text-white px-5 py-2 rounded-lg hover:bg-blue-700 transition">Show</a> --}}
+                            class="bg-blue-600 text-white px-5 py-2 rounded-lg hover:bg-blue-700 transition">Show</a>
+                        --}}
                         <a href="{{ route('categories.edit', $category) }}"
                             class="bg-yellow-600 text-white px-5 py-2 rounded-lg hover:bg-yellow-700 transition">Edit</a>
                         <form action="{{ route('categories.destroy', $category) }}" method="POST" class="inline">
