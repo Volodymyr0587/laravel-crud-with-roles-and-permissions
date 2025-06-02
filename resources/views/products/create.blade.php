@@ -65,14 +65,24 @@
         <div class="mb-5">
             <label for="categories"
                 class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Categories</label>
-            <select multiple name="categories[]" id="categories"
-                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:text-white">
-                @foreach ($categories as $category)
-                <option value="{{ $category->id }}" @selected(in_array($category->id, old('categories', [])))>
-                    {{ $category->name }}
-                </option>
+            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+                @foreach ($categories->chunk(5) as $categoryChunk)
+                    <div>
+                        @foreach ($categoryChunk as $category)
+                            <label class="flex items-center space-x-2 mb-1">
+                                <input
+                                    type="checkbox"
+                                    name="categories[]"
+                                    value="{{ $category->id }}"
+                                    @checked(in_array($category->id, old('categories', [])))
+                                    class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded-sm focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                                >
+                                <span class="text-sm text-gray-900 dark:text-white">{{ $category->name }}</span>
+                            </label>
+                        @endforeach
+                    </div>
                 @endforeach
-            </select>
+            </div>
             @error('categories')
             <div class="mt-2 text-white text-xs p-1.5 rounded-md bg-red-500 dark:bg-red-800">
                 {{ $message }}
