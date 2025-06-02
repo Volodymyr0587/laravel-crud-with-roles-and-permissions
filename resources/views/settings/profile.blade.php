@@ -31,6 +31,9 @@
             <div class="flex-1">
                 <div
                     class="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 overflow-hidden mb-6">
+                    <p class="text-lg ml-6 mt-2">
+                        <span class="px-2 py-1 rounded-md bg-green-400 text-gray-950 font-extrabold">{{ $user->is_admin ? 'admin' : 'regular user' }}</span>
+                    </p>
                     <div class="p-6">
                         <!-- Profile Form -->
                         <form class="max-w-md mb-10" action="{{ route('settings.profile.update') }}" method="POST">
