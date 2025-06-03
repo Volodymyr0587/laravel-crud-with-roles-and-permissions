@@ -22,19 +22,19 @@ class AppServiceProvider extends ServiceProvider
     public function boot(): void
     {
         Gate::define('admin-access', function ($user) {
-            return $user->is_admin;
+            return $user->hasRole('admin');
         });
 
         Gate::define('manage-users', function ($user) {
-            return $user->is_admin;
+            return $user->hasRole('admin');
         });
 
         Gate::define('view-admin-dashboard', function ($user) {
-            return $user->is_admin;
+            return $user->hasRole('admin');
         });
 
         Blade::if('admin', function () {
-            return auth()->check() && auth()->user()->is_admin;
+            return auth()->check() && auth()->user()->hasRole('admin');
         });
     }
 }

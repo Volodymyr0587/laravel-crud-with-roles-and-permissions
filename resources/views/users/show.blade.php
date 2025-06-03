@@ -35,7 +35,7 @@
                 <div class="flex items-center justify-between">
                     <p class="text-gray-700 dark:text-gray-300">
                         <span class="font-medium">Role:</span>
-                        {{ $user->is_admin ? 'Admin' : 'Regular user' }}
+                        {{  $user->roles->pluck('name')->join(', ') }}
                     </p>
                     <a href="{{ route('users.edit', $user) }}"
                     class="bg-yellow-600 text-white px-5 py-2 rounded-lg hover:bg-yellow-700 transition">Edit</a>

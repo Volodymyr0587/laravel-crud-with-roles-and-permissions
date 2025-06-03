@@ -7,19 +7,23 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Symfony\Component\HttpFoundation\Response;
 
-class AdminMiddleware
+class RoleMiddleware
 {
     /**
      * Handle an incoming request.
      *
      * @param  \Closure(\Illuminate\Http\Request): (\Symfony\Component\HttpFoundation\Response)  $next
      */
-    public function handle(Request $request, Closure $next): Response
+    public function handle($request, Closure $next, ...$roles)
     {
-        if (!Auth::check() || !Auth::user()->is_admin) {
-            abort(403, 'Access denied. Admin privileges required.');
+        if (!auth()->check() || !auth()->user()->roles()->whereIn('name', $roles)->exists()) {
+            abort(403);
         }
 
         return $next($request);
     }
+
 }
+
+
+

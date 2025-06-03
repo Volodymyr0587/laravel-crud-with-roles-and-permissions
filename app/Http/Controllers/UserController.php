@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Role;
 use App\Models\User;
 use Illuminate\Http\Request;
-use App\Http\Requests\UpdateUserRequest;
 use Illuminate\Support\Facades\Gate;
 
 class UserController extends Controller
@@ -36,14 +36,16 @@ class UserController extends Controller
     {
         Gate::authorize('manage-users');
 
-        return view('users.edit', ['user' => $user]);
+        $roles = Role::all();
+
+        return view('users.edit', ['user' => $user, 'roles' => $roles]);
     }
 
-    public function update(UpdateUserRequest $request, User $user)
+    public function update(Request $request, User $user)
     {
         Gate::authorize('manage-users');
 
-        $user->update($request->validated());
+        $user->roles()->sync($request->roles);
 
         return to_route('users.show', $user)->with('message', "$user->name updated successfully.");
     }

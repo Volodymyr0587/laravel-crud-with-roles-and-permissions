@@ -3,10 +3,11 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Illuminate\Support\Str;
+use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
-use Illuminate\Notifications\Notifiable;
-use Illuminate\Support\Str;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class User extends Authenticatable
 {
@@ -22,7 +23,6 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
-        'is_admin',
     ];
 
     /**
@@ -49,6 +49,21 @@ class User extends Authenticatable
     }
 
     /**
+     * The roles that belong to the User
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
+    public function roles(): BelongsToMany
+    {
+        return $this->belongsToMany(Role::class);
+    }
+
+    public function hasRole(string $role): bool
+    {
+        return $this->roles()->where('name', $role)->exists();
+    }
+
+    /**
      * Get the user's initials
      */
     public function initials(): string
@@ -57,11 +72,6 @@ class User extends Authenticatable
             ->explode(' ')
             ->map(fn (string $name) => Str::of($name)->substr(0, 1))
             ->implode('');
-    }
-
-    public function isAdmin(): bool
-    {
-        return $this->is_admin;
     }
 
     public function scopeSearchByNameEmail($query, $searchTerm)

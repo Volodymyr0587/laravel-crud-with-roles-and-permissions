@@ -32,7 +32,7 @@
                 <div
                     class="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 overflow-hidden mb-6">
                     <p class="text-lg ml-6 mt-2">
-                        <span class="px-2 py-1 rounded-md bg-green-400 text-gray-950 font-extrabold">{{ $user->is_admin ? 'admin' : 'regular user' }}</span>
+                        <span class="px-2 py-1 rounded-md bg-green-400 text-gray-950 font-extrabold">{{ $user->roles()->pluck('name') }}</span>
                     </p>
                     <div class="p-6">
                         <!-- Profile Form -->

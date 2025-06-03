@@ -2,32 +2,39 @@
 
     <div class="mb-6">
         <h1 class="text-2xl font-bold text-gray-800 dark:text-gray-100">Users</h1>
-        <p class="text-gray-600 dark:text-gray-400 mt-1">Edit user <span class="font-bold">{{ $user->name }} {{
-                $user->email }}</span></p>
+        <div class="text-gray-600 dark:text-gray-400 mt-1">
+            <p>Edit user <span class="font-bold">{{ $user->name }}</span></p>
+            <span>{{ $user->email }}</span>
+        </div>
     </div>
 
     <form class="max-w-2xl mx-auto" action="{{ route('users.update', $user) }}" method="POST">
         @csrf
         @method('PATCH')
 
-        {{-- User is_admin --}}
+        {{-- User Roles --}}
+        {{-- User Roles --}}
         <div class="mb-5">
-            <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Admin status</label>
+            <label for="roles" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Roles</label>
 
+            @foreach ($roles as $role)
             <div class="flex items-center mb-2">
-                <input type="radio" id="admin_yes" name="is_admin" value="1" {{ old('is_admin', $user->is_admin) ?
-                'checked' : '' }}
+                <input type="checkbox" id="role_{{ $role->id }}" name="roles[]" value="{{ $role->id }}" {{
+                    in_array($role->id, old('roles', $user->roles->pluck('id')->toArray())) ? 'checked' : '' }}
                 class="mr-2">
-                <label for="admin_yes" class="text-sm text-gray-900 dark:text-white">Yes, Admin</label>
+                <label for="role_{{ $role->id }}" class="text-sm text-gray-900 dark:text-white">
+                    {{ ucfirst($role->name) }}
+                </label>
             </div>
+            @endforeach
 
-            <div class="flex items-center">
-                <input type="radio" id="admin_no" name="is_admin" value="0" {{ !old('is_admin', $user->is_admin) ?
-                'checked' : '' }}
-                class="mr-2">
-                <label for="admin_no" class="text-sm text-gray-900 dark:text-white">No, Regular User</label>
+            @error('roles')
+            <div class="mt-2 text-white text-xs p-1.5 rounded-md bg-red-500 dark:bg-red-800">
+                {{ $message }}
             </div>
+            @enderror
         </div>
+
 
         {{-- Submit Button --}}
         <button type="submit"
@@ -35,5 +42,6 @@
             Update User
         </button>
     </form>
+
 
 </x-layouts.app>
