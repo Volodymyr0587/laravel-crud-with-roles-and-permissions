@@ -16,6 +16,12 @@
                     <x-layouts.sidebar-two-level-link href="{{ route('users.index') }}" icon='fas-house'
                         :active="request()->routeIs('users.index')">Manage users</x-layouts.sidebar-two-level-link>
                 </x-layouts.sidebar-two-level-link-parent>
+
+                <x-layouts.sidebar-two-level-link-parent title="Roles" icon="fas-house"
+                    :active="request()->routeIs('two-level*')">
+                    <x-layouts.sidebar-two-level-link href="{{ route('roles.index') }}" icon='fas-house'
+                        :active="request()->routeIs('roles.index')">Manage roles</x-layouts.sidebar-two-level-link>
+                </x-layouts.sidebar-two-level-link-parent>
                 @endadmin
 
                 <!-- Example two level -->
