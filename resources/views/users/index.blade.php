@@ -33,7 +33,7 @@
                 <tr>
                     <th class="px-6 py-3">Name</th>
                     <th class="px-6 py-3">Email</th>
-                    <th class="px-6 py-3">Is Admin</th>
+                    <th class="px-6 py-3">Role</th>
                     <th class="px-6 py-3">Actions</th>
                 </tr>
             </thead>
@@ -42,7 +42,7 @@
                 <tr class="border-t hover:bg-gray-50 dark:hover:bg-gray-600">
                     <td class="px-6 py-4 font-medium dark:text-gray-200">{{ $user->name }}</td>
                     <td class="px-6 py-4 font-medium dark:text-gray-200">{{ $user->email }}</td>
-                    <td class="px-6 py-4 font-bold dark:text-gray-200">{{ $user->is_admin ? 'YES' : 'NO' }}</td>
+                    <td class="px-6 py-4 font-bold dark:text-gray-200">{{ $user->roles->pluck('name')->join(', ') }}</td>
                     <td class="px-6 py-4 space-x-2">
                         <a href="{{ route('users.show', $user) }}"
                             class="bg-blue-600 text-white px-5 py-2 rounded-lg hover:bg-blue-700 transition">Show</a>
