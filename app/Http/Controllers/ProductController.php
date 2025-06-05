@@ -7,6 +7,7 @@ use App\Models\Category;
 use Illuminate\Http\Request;
 use App\Http\Requests\StoreProductRequest;
 use App\Http\Requests\UpdateProductRequest;
+use Illuminate\Support\Facades\Gate;
 
 
 class ProductController extends Controller
@@ -16,6 +17,8 @@ class ProductController extends Controller
      */
     public function index(Request $request)
     {
+        Gate::authorize('viewAny', Product::class);
+
         $searchTerm = $request->query('search');
 
         $query = Product::with('categories')->searchByNameDescription($searchTerm);
@@ -30,6 +33,8 @@ class ProductController extends Controller
      */
     public function create()
     {
+        Gate::authorize('viewAny', Product::class);
+
         $categories = Category::all();
 
         return view('products.create', ['categories' => $categories]);
@@ -60,6 +65,8 @@ class ProductController extends Controller
      */
     public function edit(Product $product)
     {
+        Gate::authorize('viewAny', Product::class);
+
         $categories = Category::all();
 
         return view('products.edit', ['product' => $product, 'categories' => $categories]);
@@ -83,6 +90,8 @@ class ProductController extends Controller
      */
     public function destroy(Product $product)
     {
+        Gate::authorize('delete', Product::class);
+
         $product->categories()->detach(); // Detach all categories
         $product->delete();
 

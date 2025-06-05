@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\StoreCategoryRequest;
-use App\Http\Requests\UpdateCategoryRequest;
 use App\Models\Category;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
+use App\Http\Requests\StoreCategoryRequest;
+use App\Http\Requests\UpdateCategoryRequest;
 
 class CategoryController extends Controller
 {
@@ -14,6 +15,8 @@ class CategoryController extends Controller
      */
     public function index(Request $request)
     {
+        Gate::authorize('viewAny', Category::class);
+
         $searchTerm = $request->query('search');
 
         $query = Category::searchByName($searchTerm);
@@ -28,6 +31,8 @@ class CategoryController extends Controller
      */
     public function create()
     {
+        Gate::authorize('viewAny', Category::class);
+
         return view('categories.create');
     }
 
@@ -54,6 +59,8 @@ class CategoryController extends Controller
      */
     public function edit(Category $category)
     {
+        Gate::authorize('viewAny', Category::class);
+
         return view('categories.edit', ['category' => $category]);
     }
 
@@ -72,6 +79,8 @@ class CategoryController extends Controller
      */
     public function destroy(Category $category)
     {
+        Gate::authorize('delete', Category::class);
+
         $categoryName = $category->name;
 
         $category->delete();

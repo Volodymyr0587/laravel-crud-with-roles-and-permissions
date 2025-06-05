@@ -25,6 +25,7 @@
                 @endadmin
 
                 <!-- Example two level -->
+                @can('viewAny', App\Models\Product::class)
                 <x-layouts.sidebar-two-level-link-parent title="Products" icon="fas-house"
                     :active="request()->routeIs('two-level*')">
                     <x-layouts.sidebar-two-level-link href="{{ route('products.index') }}" icon='fas-house'
@@ -32,8 +33,10 @@
                     <x-layouts.sidebar-two-level-link href="{{ route('products.create') }}" icon='fas-house'
                         :active="request()->routeIs('products.create')">Add product</x-layouts.sidebar-two-level-link>
                 </x-layouts.sidebar-two-level-link-parent>
+                @endcan
 
                 <!-- Example two level -->
+                @can('viewAny', App\Models\Category::class)
                 <x-layouts.sidebar-two-level-link-parent title="Categories" icon="fas-house"
                     :active="request()->routeIs('two-level*')">
                     <x-layouts.sidebar-two-level-link href="{{ route('categories.index') }}" icon='fas-house'
@@ -41,6 +44,7 @@
                     <x-layouts.sidebar-two-level-link href="{{ route('categories.create') }}" icon='fas-house'
                         :active="request()->routeIs('categories.create')">Add category</x-layouts.sidebar-two-level-link>
                 </x-layouts.sidebar-two-level-link-parent>
+                @endcan
 
                 <!-- Example three level -->
                 <x-layouts.sidebar-two-level-link-parent title="Example three level" icon="fas-house"
